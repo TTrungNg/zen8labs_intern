@@ -3,9 +3,13 @@
 
 ## Table of Contents
 I. INTRODUCTION TO AWS
+
 II. COMPUTE IN THE CLOUD
+
 III. GLOBAL INFRASTRUCTURE AND RELIABILITY
+
 IV. NETWORKING
+
 V. STORAGE AND DATABASES
 
 ## Contents
@@ -37,27 +41,34 @@ V. STORAGE AND DATABASES
 *   **Vertical scaling an instance** (resizable compute capacity): start with a small instance and give it more memory and cpu when the app max out that server.
 *   *(Optional) Networking aspect of EC2: types of requests make it to server, publicly or privately accessible.*
 *   5 Types of EC2 instance:
+
     *   **General purpose instances:**
 
     | Provide a balance of compute, memory, and networking resources. | Application servers, gaming servers, backend servers for enterprise applications, small and medium databases. |
     | :------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+    
     *   **Compute optimized instances:**
 
     | Ideal for compute-bound applications that benefit from high-performance processors. *Also use for batch processing workloads that require processing many transactions in a single group.* | web, application, and gaming servers. |
     | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------- |
+
     *   **Memory optimized instances:**
 
     | Fast performance for workloads that process large datasets in memory | Requires large amounts of data to be preloaded before running an application |
     | :---------------------------------------------------------------------- | :---------------------------------------------------------------------------------- |
+
     *   **Accelerated computing instances:**
 
     | Use hardware accelerators, or coprocessors, to perform some functions more efficiently than is possible in software running on CPUs. | floating-point number calculations, graphics processing, and data pattern matching. |
     | :------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------- |
     | In computing, a hardware accelerator is a component that can expedite data processing.                                                 | workloads such as graphics applications, game streaming, and application streaming.   |
+    
     *   **Storage optimized instances**
 
     | Designed for workloads that require high, sequential read and write access to large datasets on local storage | input/output operations per second (IOPS) |
     | :------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------- |
+
+    
 *   5 types of Pricing:
 
 | **Feature**          | **On-Demand Instances**                   | **Reserved Instances (RI)**                                  | **Savings Plans**                                                      | **Spot Instances**                               | **Dedicated Hosts**                                   |
@@ -69,34 +80,65 @@ V. STORAGE AND DATABASES
 | **Usage Commitment** | None, pay as you go                   | Must commit to a fixed **instance type and size**         | Commit to a **spending amount per hour** instead of instance type | None                                       | Optional                                        |
 | **Best Use Case**    | Short-term, unpredictable workloads      | Steady-state workloads with known requirements             | Flexible workloads where instance type/size may change             | Workloads with flexible start and end times    | When having compliance requirements             |
 | **Example**          | Running an EC2 instance temporarily for testing | Running a web server 24/7 with a fixed instance type         | Running various EC2 instances within an instance family in a Region             | Data processing job for a customer survey   | Medicine data cannot be on shared cloud        |
+
+***
+
 *   **EC2 Auto Scaling:** add new instances to the application when necessary and terminate them when no longer needed.
+
+![image](https://github.com/user-attachments/assets/0055ebb0-c6d6-42e3-a6bf-8f2011fad338)
+
 *Minimum, Desired, Maximum EC2 instances can be set in AutoScale Config.*
 *   **Elastic Load Balancing(ELB):** automatically distributes incoming application traffic across multiple resources, such as Amazon EC2 instances.
+
+<img width="542" alt="Elastic Load" src="https://github.com/user-attachments/assets/850ca588-f224-408c-8e41-b6e1c94658da" />
+<img width="802" alt="Elastic Load" src="https://github.com/user-attachments/assets/9c7b597f-b91c-464e-ac1b-8a0d52db31d3" />
+
 *Note: Instead of taking a look to every EC2 instances to check if it is available, the request con go straightly to the ELB, and take route directly to the available EC2 Instance.*
+
+***
+
 *   Microservices approach is used with services and components. There are two services to help it: Amazon Simple Notification Service (Amazon SNS) and Amazon Simple Queue Service (Amazon SQS).
 
-**Amazon SNS** is a publish/subscribe service. Using Amazon SNS topics, a publisher publishes messages to subscribers. Subscribers can be web servers, email addresses, AWS Lambda functions, or several other options.
+   *  **Amazon SNS** is a publish/subscribe service. Using Amazon SNS topics, a publisher publishes messages to subscribers. Subscribers can be web servers, email addresses, AWS Lambda functions, or several other options.
 
-**Using Amazon SQS**, you can send, store, and receive messages between software components, without losing messages or requiring other services to be available. In Amazon SQS, an application sends messages into a queue. A user or service retrieves a message from the queue, processes it, and then deletes it from the queue.
+<img width="840" alt="Coupons" src="https://github.com/user-attachments/assets/adcc2b47-b929-4918-af9a-a5245db45503" />
+
+   *  **Using Amazon SQS**, you can send, store, and receive messages between software components, without losing messages or requiring other services to be available. In Amazon SQS, an application sends messages into a queue. A user or service retrieves a message from the queue, processes it, and then deletes it from the queue.
+
+![Queue](https://github.com/user-attachments/assets/6ad369b7-46f3-43d5-9951-9469d00d5b04)
+
+***
+
 *   **AWS Lambda** is a service that lets you run code without needing to provision or manage servers.
+
+<img width="840" alt="Upload code to" src="https://github.com/user-attachments/assets/fb2fc523-2975-4954-add8-f4c5d1bbe17c" />
+
 *   **Amazon Elastic Container Service (Amazon ECS):** highly scalable, high-performance container management system that enables you to run and scale containerized applications on AWS which support Docker.
 *   **Amazon Elastic Kubernetes Service (Amazon EKS):** is a fully managed service that you can use to run Kubernetes on AWS.
 *   **AWS Fargate:** a serverless compute engine for containers. It works with both Amazon ECS and Amazon EKS. Don’t need to manage servers. Pay only for the resources that are required to run containers.
 
 #### III. GLOBAL INFRASTRUCTURE AND RELIABILITY
 
-*   Determining the right **Region**:
+*   Determining the right **Region** based on:
 
     *   Compliance with data governance and legal requirements
     *   Proximity to your customers: reduce latency.
     *   Available services within a Region: Not every Region has the same services (especially new services)
     *   Pricing: Region prices are different (Because of Tax, etc)
+ 
 *   An **Availability Zone** is a single data center or a group of data centers within a Region. Availability Zones are located tens of miles apart from each other. This is close enough to have low latency (the time between when content requested and received) between Availability Zones. However, if a disaster occurs in one part of the Region, they are distant enough to reduce the chance that multiple Availability Zones are affected.
+
+![N  California](https://github.com/user-attachments/assets/3cd7e253-d661-4bba-b49f-b7e7d9e2493a)
+
 *   An **edge location** is a site that Amazon CloudFront uses to store cached copies of your content closer to your customers for faster delivery.
+
+***
+
 *   3 ways to interact with AWS services:
     *   **AWS Management Console** is a web-based interface for accessing and managing AWS services. You can quickly access recently used services and search for other services by name, keyword, or acronym. The console includes wizards and automated workflows that can simplify the process of completing tasks.
     *   **WS Command Line Interface (AWS CLI):** control directly from the command line within one tool.
     *   **Software development kits (SDKs)** : make it easier for you to use AWS services through an API designed for your programming language or platform.
+
 *   2 more ways to interact with AWS: Elastic Beanstalk and CloudFormation:
 
 | **Criteria**         | **AWS Elastic Beanstalk**                                       | **AWS CloudFormation**                                                                        |
@@ -114,22 +156,52 @@ V. STORAGE AND DATABASES
 
 *   **Amazon Virtual Private Cloud (VPC)** : establish boundaries around your AWS resources. In this, you can launch resources in a virtual network that you define (public or private). Within a virtual private cloud (VPC), you can organize your resources into subnets. A **subnet** is a section of a VPC that can contain resources such as Amazon EC2 instances.
 *   **Internet Gateway (IGW):** allow public traffic from the internet to access your VPC (without this, no one can access aws resources).
+
+<img width="840" alt="A client sends a request through the" src="https://github.com/user-attachments/assets/0ecb4670-665c-48ea-a442-c22743813033" />
+
 *   **Virtual Private Gateway:** because of this, only connection with VPN or protection can access private resources in VPC. This one is best when we have connection between an on-premises data center or internal corporate network and our VPC.
+
+<img width="840" alt="VPN connection" src="https://github.com/user-attachments/assets/2eae9f26-2e41-479b-8b54-a9368e5622e4" />
+
 *   **AWS Direct Connect:** establish a dedicated private connection between your data center and a VPC. This is best when we need to reduce network costs and more bandwidth. (Like make our own way directly to the VPC from the data center)
+
+<img width="840" alt="CPE Digital - Module 4 - AWS Direct Connect" src="https://github.com/user-attachments/assets/3c0e4aa0-4703-4876-89a7-b86972f6b926" />
+
 *   **Subnet:** is a section of a VPC in which you can group resources based on security or operational needs. Subnets can be public or private. 2 types:
     *   **Public subnets** contain resources that need to be accessible by the public, such as an online store’s website.
     *   **Private subnets** contain resources that should be accessible only through your private network, such as a database that contains customers’ personal information and order histories.
+ 
+<img width="597" alt="AWS Cloud" src="https://github.com/user-attachments/assets/03e71345-4d69-4156-bda2-a4ef718848f3" />
+
 *   **Network Access Control List(ACL)** : a virtual firewall that controls inbound and outbound traffic at the subnet level.
     *   When configuring your VPC, you can use your account’s default network ACL or create custom network ACLs.
     *   **Your account’s default** network ACL **allows** all inbound and outbound traffic, but you can modify it by adding your own rules.
     *   For **custom network ACLs**, all inbound and outbound traffic is **denied** until you add rules to specify which traffic to allow.
 *   **Stateless packet filtering** : Network ACLs perform **stateless** packet filtering. They remember nothing and check packets that cross the subnet border each way: inbound and outbound.
+
+<img width="563" alt="Network access" src="https://github.com/user-attachments/assets/87fbaefe-4876-4f2c-959f-e08de8e5cac4" />
+
 *   **Security groups:** A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance. *By default, a security group denies all inbound traffic and allows all outbound traffic. You can add custom rules to configure which traffic should be allowed; any other traffic would then be denied*
 *   **Stateful packet filtering:** Security groups perform **stateful** packet filtering. They remember previous decisions made for incoming packets.
+
+<img width="424" alt="Security group" src="https://github.com/user-attachments/assets/7431735d-4cf3-4974-9d36-8c008b528b57" />
+
+Overall:
+
+<img width="840" alt="control list" src="https://github.com/user-attachments/assets/199beece-f116-47d4-9052-409376d8b2e6" />
+
+***
+
 *   *Domain Name System(DNS)*: DNS like the phone book of the internet. DNS resolution is the process of translating a domain name to an IP address.
+
+<img width="840" alt="Company DNS" src="https://github.com/user-attachments/assets/ec358960-b5b4-4b26-9202-2a75eef4e0a5" />
+
 *   **Amazon Route 53:** is a DNS web service. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS.
     *   Connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
     *   Also manage the DNS records for domain names. You can register new domain names directly in Route 53. You can also transfer DNS records for existing domain names managed by other domain registrars.
+* How Amazon Route 53 and Amazon CloudFront deliver content:
+
+<img width="840" alt="CPE Digital - Module 8 - Amazon Route 53" src="https://github.com/user-attachments/assets/ff65b361-d060-4222-8982-50c48796b034" />
 
 #### V. STORAGE AND DATABASES
 
@@ -138,7 +210,7 @@ V. STORAGE AND DATABASES
     *   If you stop or terminate an Amazon EC2 instance, all the data on the attached EBS volume remains available.
     *   To create an EBS volume, you define the configuration (such as volume size and type) and provision it.
 *   **Amazon EBS snapshots:** an incremental backup. This means that the first backup taken of a volume copies all the data. For subsequent backups, only the blocks of data that have changed since the most recent snapshot are saved.
-*   8 S3 storage classes:
+*   8 S3 storage's classes:
 
 | **Storage Class**              | **Availability Zones** | **Access Frequency**         | **Cost Structure**                                                                        | **Retrieval Time** | **Use Cases**                                                                                                                                                                                                                                               |
 | :----------------------------- | :----------------------- | :--------------------------- | :---------------------------------------------------------------------------------------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -172,16 +244,19 @@ V. STORAGE AND DATABASES
 | **Durability**      | Stores data in multiple AZs.                                                                                     | Stores data in a single AZ, depends on snapshots and backups            |
 | **Special Features** | As you add and remove files, Amazon EFS grows and shrinks automatically. *Additionally, on-premises servers can access Amazon EFS using AWS Direct Connect.* | Cannot automatically grows on demand                                     |
 
+***
+
 *   **Amazon Relational Database Service(RDS)** : a service that enables you to run relational databases in the AWS Cloud. This service automates tasks such as hardware provisioning, database setup, patching, backups and can connect to other services such as AWS Lambda.
 
-*6 Amazon RDS database engines:*
+*  *6 Amazon RDS database engines:*
 
-*   *Amazon Aurora*
-*   *PostgreSQL*
-*   *MySQL*
-*   *MariaDB*
-*   *Oracle Database*
-*   *Microsoft SQL Server*
+   *   *Amazon Aurora*
+   *   *PostgreSQL*
+   *   *MySQL*
+   *   *MariaDB*
+   *   *Oracle Database*
+   *   *Microsoft SQL Server*
+     
 *   **Amazon Aurora:** an enterprise-class relational database. It is compatible with MySQL and PostgreSQL relational databases.
     *   It is up to five times faster than standard MySQL databases and up to three times faster than standard PostgreSQL databases.
     *   It replicates six copies of your data across three Availability Zones and continuously backs up data to Amazon S3.
